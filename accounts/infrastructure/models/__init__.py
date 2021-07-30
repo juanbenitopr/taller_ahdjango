@@ -1,0 +1,1 @@
+from accounts.infrastructure.account.models import Account
