@@ -5,7 +5,7 @@ from django.apps import AppConfig
 
 
 class CustomAppConfig(AppConfig):
-    models_path: Optional[str]
+    models_path: Optional[str] = None
 
     def import_models(self):
         self.models = self.apps.all_models[self.label]

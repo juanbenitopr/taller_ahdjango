@@ -12,5 +12,6 @@ class MakeDepositUseCase:
         account = self.account_repository.get_by_id(id=make_deposit_command.account_id)
 
         account.deposit(make_deposit_command.amount)
+        self.account_repository.save(account)
 
         return account

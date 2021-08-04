@@ -4,7 +4,7 @@ from django.db import IntegrityError
 
 from accounts.domain.account import Account as AccountDomain
 from accounts.domain.repositories.account_repository import AccountRepository
-from accounts.infrastructure.account.models import Account as AccountDjango
+from accounts.infrastructure.models.account import Account as AccountDjango
 from accounts.infrastructure.repositories.exceptions import NotFoundError, RepositoryError
 
 
@@ -25,7 +25,11 @@ class AccountRepositoryDjango(AccountRepository):
 
     def save(self, account: AccountDomain) -> AccountDomain:
         try:
-            AccountDjango.objects.update_or_create(id=account.id, amount=account.amount, owner_id=account.owner_id)
+            account_db = AccountDjango.objects.get(id=account.id)
+            account_db.owner_id = account.owner_id
+            account_db.amount = account.amount
+
+            account_db.save()
         except IntegrityError:
             raise RepositoryError()
 
